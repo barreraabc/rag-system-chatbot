@@ -7,8 +7,3 @@ En principio, se emplearán las opciones gratuitas de herramientas de pago que s
 Alrededor de este proyecto, también se crearán ramas o repositorios derivados para analizar artículos relacionados con el sistema, técnicas especiales de RAG, prompting, etc.
 
 La realización del proyecto incluye un gestor de tareas, un diario y una memoria. El diario debe recoger todas las acciones importantes relacionadas con el proyecto, así como cualquier información que sea de interés, sin ser demasiado riguroso. La memoria será un documento técnico en el que se recogerán explicaciones referentes al sistema (arquitectura, herramientas...), pero también análisis de artículos, pruebas, test, estadísticas...
-
-# Objetivos (Luego los iré pasando al gestor de tareas)
-* Analizar la precisión del sistema RAG para acotar la información que puede dar respuesta a la query del usuario.
-* En la parte del chatbot, evaluar la importancia del esquema del prompt: En los artículos o cursos de creación de sistemas RAG - chatbot, no se explica en detalle dónde hay que situar la información extraida con el RAG dentro de la llamada al LLM, si en el system message o el user message.
-* Buscar si hay técnicas de evaluación para decidir si la query del usuario está correctamente respondida en base a la información extraída con el RAG.
