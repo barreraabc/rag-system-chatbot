@@ -1,9 +1,9 @@
-from langchain.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from mistralai import Mistral
 from langchain_mistralai import MistralAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
 from typing import List
 from rank_bm25 import BM25Okapi

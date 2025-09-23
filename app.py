@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request, jsonify
+from dotenv import load_dotenv
 import os
 
+from llm import LLM
+from simple_rag import retrieve_context
+
+load_dotenv()
+api_key = os.getenv("API_KEY")
+llm = LLM(api_key)
 app = Flask(__name__)
 
 # Ruta principal que sirve la interfaz de chat
@@ -16,10 +23,9 @@ def chat():
         data = request.get_json()
         user_message = data.get('message', '')
         
-        # Aquí puedes procesar el mensaje del usuario si es necesario
-        # Por ahora simplemente devolvemos "Hola mundo"
-        response = "Hola mundo"
-        
+        context = retrieve_context(query=user_message)
+        response = llm.generate_response(user_message=user_message, context=context)
+
         return jsonify({
             'success': True,
             'response': response,

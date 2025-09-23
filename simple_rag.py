@@ -1,6 +1,5 @@
 import os
 import sys
-import argparse
 import time
 from dotenv import load_dotenv
 
@@ -56,55 +55,51 @@ class SimpleRAG:
         print(f"Retrieval Time: {self.time_records['Retrieval']:.2f} seconds")
 
         # Display the retrieved context
-        show_context(context)
+        return context
 
 
 # Function to validate command line inputs
-def validate_args(args):
-    if args.chunk_size <= 0:
+def validate_args(args: dict) -> dict:
+    if args.get('chunk_size') <= 0:
         raise ValueError("chunk_size must be a positive integer.")
-    if args.chunk_overlap < 0:
+    if args.get('chunk_overlap') < 0:
         raise ValueError("chunk_overlap must be a non-negative integer.")
-    if args.n_retrieved <= 0:
+    if args.get('n_retrieved') <= 0:
         raise ValueError("n_retrieved must be a positive integer.")
     return args
 
 
 # Function to parse command line arguments
-def parse_args():
-    parser = argparse.ArgumentParser(description="Encode a PDF document and test a simple RAG.")
-    parser.add_argument("--path", type=str, default="data/Understanding_Climate_Change.pdf",
-                        help="Path to the PDF file to encode.")
-    parser.add_argument("--chunk_size", type=int, default=1000,
-                        help="Size of each text chunk (default: 1000).")
-    parser.add_argument("--chunk_overlap", type=int, default=200,
-                        help="Overlap between consecutive chunks (default: 200).")
-    parser.add_argument("--n_retrieved", type=int, default=2,
-                        help="Number of chunks to retrieve for each query (default: 2).")
-    parser.add_argument("--query", type=str, default="What is the main cause of climate change?",
-                        help="Query to test the retriever (default: 'What is the main cause of climate change?').")
-    parser.add_argument("--evaluate", action="store_true",
-                        help="Whether to evaluate the retriever's performance (default: False).")
+def get_args():
+    args = {}
+    # Path to the PDF file to encode.
+    args['path'] = os.getenv("DOCUMENTS_PATH", "data/Understanding_Climate_Change.pdf")
+    # Size of each text chunk (default: 1000).
+    args['chunk_size'] = int(os.getenv("CHUNK_SIZE", 1000))
+    # Overlap between consecutive chunks (default: 200).
+    args['chunk_overlap'] = int(os.getenv("CHUNK_OVERLAP", 200))
+    # Number of chunks to retrieve for each query (default: 2).
+    args['n_retrieved'] = int(os.getenv("N_RETRIEVED", 2))
 
     # Parse and validate arguments
-    return validate_args(parser.parse_args())
+    return validate_args(args)
 
 
 # Main function to handle argument parsing and call the SimpleRAGRetriever class
-def main(args):
-    # Initialize the SimpleRAGRetriever
+def retrieve_context(query: str) -> str:
+    args = get_args()
+
     simple_rag = SimpleRAG(
-        path=args.path,
-        chunk_size=args.chunk_size,
-        chunk_overlap=args.chunk_overlap,
-        n_retrieved=args.n_retrieved
+        path=args['path'],
+        chunk_size=args['chunk_size'],
+        chunk_overlap=args['chunk_overlap'],
+        n_retrieved=args['n_retrieved']
     )
 
     # Retrieve context based on the query
-    simple_rag.run(args.query)
+    retrieved_chunks = simple_rag.run(query)
 
-    # Evaluate the retriever's performance on the query (if requested)
+    context = "\n\n".join([f"Doc {i+1}:\n{chunk}" for i, chunk in enumerate(retrieved_chunks)])
 
-if __name__ == '__main__':
-    # Call the main function with parsed arguments
-    main(parse_args())
+    return context
+

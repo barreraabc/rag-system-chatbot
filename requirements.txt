@@ -1,0 +1,8 @@
+Flask==3.1.2
+python-dotenv==1.1.1
+langchain_community==0.3.29
+mistralai==1.9.10
+langchain-mistralai==0.2.12
+rank-bm25==0.2.2
+PyMuPDF==1.26.4
+pypdf==6.1.0
