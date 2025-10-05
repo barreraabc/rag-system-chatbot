@@ -9,3 +9,5 @@ In addition, related repositories will be studied or created to analyse articles
 The project will include a task manager, a journal, and a technical report.
 The journal should record all significant actions related to the project, as well as any information of interest, without being overly strict.
 The technical report will be a document containing explanations about the system (architecture, tools, etc.), as well as article analyses, experiments, tests, statistics, and so on.
+
+- Open-source rag system chatbot: [rag-system-chatbot](https://github.com/barreraabc/rag-system-chatbot).
